@@ -2,7 +2,7 @@
 
 ![License](https://img.shields.io/github/license/minimelkav/chat_php)
 ![Version](https://img.shields.io/github/v/release/minimelkav/chat_php)
-![Status](https://img.shields.io/github/workflow/status/minimelkav/chat_php/PHP%20Composer)
+
 
 PHP Chat is a simple web-based chat application built with PHP, JS, and HTML. It allows users to join the chat with a username and chat with Bing (or other users if they have any).
 
@@ -44,12 +44,28 @@ PHP Chat is a simple web-based chat application built with PHP, JS, and HTML. It
 - Check or uncheck the Bounce checkbox to enable or disable the bounce effect
 - Enjoy chatting with Bing (or other users if you have any)
 
-## Screenshots
+## Docker automation scripts
 
-![Join](join.png)
-![Chat](chat.png)
-![Bounce](bounce.gif)
+You can also use Docker automation scripts to install Docker and run PHP_CHAT in a Docker container on Windows or MacOS. These scripts will download and install Docker if it is not already installed, clone the GitHub repository, rename the folder, grant write permission to the chat.txt file, build and run the PHP chat application with docker compose, and open the web browser and point it to the JOIN page.
 
-## License
+To use these scripts, make sure you have GIT installed on your system (Or DOWNLOAD AS ZIP from BROWSER). Then follow these steps:
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Windows
+
+- Download or clone this repository to your local machine using the `git clone https://github.com/minimelkav/chat_php.git` command.
+- Rename the folder to php_chat (or any name you prefer).
+- In the root directory of the folder, run the WindowsDockerDemo.CMD file. This will check if WINGET and DOCKER are installed on your system. If not, it will download and install them using WINGET. Then it will run the commands from the readme and fire-up a browser pointed at the JOIN page.
+
+### MacOS
+
+- Download or clone this repository to your local machine using the `git clone https://github.com/minimelkav/chat_php.git` command.
+- Rename the folder to php_chat (or any name you prefer).
+- In the root directory of the folder, run the MacOSDockerDemo.sh file. This will check if DOCKER is installed on your system. If not, it will download and install it using curl. Then it will run the commands from the readme and fire-up a browser pointed at the JOIN page.
+
+## Stop PHP Chat scripts
+
+These scripts are for stopping the PHP Chat's PHP container in a graceful or forceful way. They use the docker stop and docker kill commands to send signals to the container and terminate it.
+
+The StopChatPHP.cmd script is for Windows users. It tries to stop the PHP container with a 30 seconds timeout. If the container does not stop within that time, it kills it.
+
+The StopChatPHP.sh script is for MacOS.
