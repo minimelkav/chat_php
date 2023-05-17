@@ -1,0 +1,82 @@
+<?php
+// start a session
+session_start();
+// check if the session variable username is set
+if (isset($_SESSION["username"])) {
+    // get the username from the session variable
+    $username = $_SESSION["username"];
+} else {
+    // redirect to the join.php page if the username is not set
+    header("Location: join.php");
+    exit();
+}
+?>
+<iframe id="chat" src="chat.html"></iframe>
+<form id="form" action="server.php" method="POST" target="chat">
+    <!-- use the username from the session variable as a hidden input -->
+    <input type="hidden" id="username" name="username" value="<?php echo $username; ?>">
+    <input type="text" id="message" name="message" placeholder="Message">
+    <input type="submit" id="send" value="Send">
+</form>
+<!-- add a checkbox to enable or disable the bounce effect -->
+<input type="checkbox" id="bounce" name="bounce" checked>
+<label for="bounce">Bounce</label>
+<script>
+// get the iframe element by its id
+var iframe = document.getElementById("chat");
+// get the checkbox element by its id
+var checkbox = document.getElementById("bounce");
+// set the initial position and direction of the iframe
+var position = 0;
+var direction = 1;
+// define a function that makes the iframe bounce
+function bounce() {
+    // check if the checkbox is checked
+    if (checkbox.checked) {
+        // update the position of the iframe based on the direction
+        position += direction;
+        // check if the position reaches the top or bottom limit and reverse the direction
+        if (position == 100 || position == 0) {
+            direction = -direction;
+        }
+        // set the top margin of the iframe to the position value
+        iframe.style.marginTop = position + "px";
+    }
+    // call the bounce function again after 10 milliseconds
+    setTimeout(bounce, 10);
+}
+// call the bounce function for the first time
+bounce();
+
+// define a function that refreshes the iframe content
+function refresh() {
+    // create a new XMLHttpRequest object
+    var xhr = new XMLHttpRequest();
+    // open a GET request to the chat.html file
+    xhr.open("GET", "chat.html");
+    // set the response type to document
+    xhr.responseType = "document";
+    // define a function that runs when the request is completed
+    xhr.onload = function() {
+        // check if the status is OK
+        if (xhr.status == 200) {
+            // get the response document from the xhr object
+            var doc = xhr.response;
+            // get the body element from the response document
+            var body = doc.getElementsByTagName("body")[0];
+            // get the content window of the iframe element
+            var win = iframe.contentWindow;
+            // get the document of the content window
+            var doc = win.document;
+            // replace the body element of the content window document with the body element from the response document
+            doc.replaceChild(body, doc.body);
+        }
+    };
+    // send the request
+    xhr.send();
+    // call the refresh function again after 5 seconds
+    setTimeout(refresh, 5000);
+}
+// call the refresh function for the first time
+refresh();
+</script>
